@@ -10,11 +10,10 @@ class PelangganController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
-    {
-        //
-    }
-
+public function index(){
+		$data['dataPelanggan'] = Pelanggan::all();
+		return view('admin.pelanggan.index',$data);
+}
     /**
      * Show the form for creating a new resource.
      */
@@ -54,7 +53,8 @@ class PelangganController extends Controller
      */
     public function edit(string $id)
     {
-        //
+        $data['dataPelanggan'] = Pelanggan::findOrFail($id);
+        return view('admin.pelanggan.edit', $data);
     }
 
     /**
@@ -62,7 +62,18 @@ class PelangganController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        $pelanggan_id = $id;
+        $pelanggan = Pelanggan::findOrFail($pelanggan_id);
+
+        $pelanggan->first_name = $request->first_name;
+        $pelanggan->last_name = $request->last_name;
+        $pelanggan->birthday = $request->birthday;
+        $pelanggan->gender = $request->gender;
+        $pelanggan->email = $request->email;
+        $pelanggan->phone = $request->phone;
+
+        $pelanggan->save();
+        return redirect()->route('pelanggan.index')->with('success','Perubahan Data Berhasil!');
     }
 
     /**
