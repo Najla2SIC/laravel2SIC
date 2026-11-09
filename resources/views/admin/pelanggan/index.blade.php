@@ -29,11 +29,47 @@
             </div>
         </div>
 
-
         <div class="row">
             <div class="col-12 mb-4">
                 <div class="card border-0 shadow mb-4">
                     <div class="card-body">
+
+                        {{-- Form Filter Gender & Search --}}
+                        <form method="GET" action="{{ route('pelanggan.index') }}" class="mb-3">
+                            <div class="row">
+                                <div class="col-md-2">
+                                    <select name="gender" onchange="this.form.submit()" class="form-select">
+                                        <option value="">All Genders</option>
+                                        <option value="Male" {{ request('gender') == 'Male' ? 'selected' : '' }}>Male</option>
+                                        <option value="Female" {{ request('gender') == 'Female' ? 'selected' : '' }}>Female</option>
+                                        <option value="Other" {{ request('gender') == 'Other' ? 'selected' : '' }}>Other</option>
+                                    </select>
+                                </div>
+
+                                {{-- Form Search & Clear --}}
+                                <div class="col-md-4">
+                                    <div class="input-group">
+                                        <input type="text" name="search" class="form-control" id="exampleInputIconLeft"
+                                            placeholder="Search" value="{{ request('search') }}">
+                                        <button type="submit" class="input-group-text" id="basic-addon2">
+                                            <svg class="icon icon-xxs" fill="currentColor" viewBox="0 0 20 20"
+                                                xmlns="http://www.w3.org/2000/svg">
+                                                <path fill-rule="evenodd"
+                                                    d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z"
+                                                    clip-rule="evenodd"></path>
+                                            </svg>
+                                        </button>
+
+                                        {{-- LETAK TOMBOL CLEAR SEARCH --}}
+                                        @if(request('search'))
+                                            <a href="{{ request()->fullUrlWithQuery(['search' => null]) }}"
+                                                class="btn btn-outline-secondary ms-2" id="clear-search">Clear</a>
+                                        @endif
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+
                         <div class="table-responsive">
                             <table id="table-pelanggan" class="table table-centered table-nowrap mb-0 rounded">
                                 <thead class="thead-light">
@@ -68,7 +104,6 @@
                                                     </svg>
                                                     Edit
                                                 </a>
-                                                <!-- Tombol Hapus (Tempel di sini) -->
                                                 <form action="{{ route('pelanggan.destroy', $item->pelanggan_id) }}"
                                                     method="POST" style="display:inline">
                                                     @csrf
@@ -91,6 +126,11 @@
                                     @endforeach
                                 </tbody>
                             </table>
+                        </div>
+
+                        {{-- Tombol Pagination --}}
+                        <div class="mt-3">
+                            {{ $dataPelanggan->links('pagination::bootstrap-5') }}
                         </div>
                     </div>
                 </div>

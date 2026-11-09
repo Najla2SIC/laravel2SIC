@@ -22,6 +22,7 @@
     <div class="alert alert-success">{{ session('success') }}</div>
 @endif
 
+{{-- Tabel Data User --}}
 <div class="row">
     <div class="col-12 mb-4">
         <div class="card border-0 shadow mb-4">
@@ -37,7 +38,7 @@
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach ($users as $item)
+                            @foreach ($dataUser as $item)
                                 <tr>
                                     <td>{{ $item->name }}</td>
                                     <td>{{ $item->email }}</td>
@@ -59,6 +60,12 @@
                         </tbody>
                     </table>
                 </div>
+
+                {{-- Tombol Pagination diletakkan DI DALAM card-body --}}
+                <div class="mt-3">
+                    {!! $dataUser->links('pagination::bootstrap-5') !!}
+                </div>
+
             </div>
         </div>
     </div>
